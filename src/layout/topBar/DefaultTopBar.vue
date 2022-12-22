@@ -1,36 +1,34 @@
 <template>
-	
-	<div class="flex justify-end shrink-0">
-		
-		
-		<div class="dropdown dropdown-end">
-			<button class="btn btn-circle btn-secondary" tabindex="0">User</button>
-			<ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+	<div class="z-50 flex shrink-0 justify-end">
+		<div class="dropdown-end dropdown">
+			<button class="btn-secondary btn-circle btn" tabindex="0">User</button>
+			<ul tabindex="0" class="dropdown-content menu rounded-box z-50 w-52 bg-base-100 p-2 shadow">
 				<li>
 					<button @click="toManageUser()">
-						<UserIcon class="w-6 h-6"/>
+						<IconUser class="" />
 						Manage user
 					</button>
 				</li>
 				<li>
 					<button @click="doLogout()">
-						<LockClosedIcon class="w-6 h-6"/>
+						<IconSignOut />
 						Logout
 					</button>
 				</li>
 			</ul>
 		</div>
-	
 	</div>
-
 </template>
 
 <script setup lang="ts">
-import {ref, reactive} from 'vue';
-import {useRouter} from 'vue-router';
-import {UserIcon, LockClosedIcon} from '@heroicons/vue/24/outline';
+import { ref, reactive } from 'vue';
+import { useRouter } from 'vue-router';
+import { UserIcon, LockClosedIcon } from '@heroicons/vue/24/outline';
+import IconUser from '@/assets/icons/elements/IconUser.vue';
+import IconSignOut from '@/assets/icons/actions/IconSignOut.vue';
+import { useAuth } from '@/services/Auth';
 
-
+const auth = useAuth();
 const router = useRouter();
 
 /**
@@ -42,19 +40,17 @@ const doLogout = () => {
 	});
 };
 
-
 /**
  * Handle:
  */
 const toManageUser = () => {
 	router.push({
-		name: 'users/current',
+		name: 'user/manage',
+		params: {
+			id: auth.getUser.id,
+		},
 	});
 };
-
-
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

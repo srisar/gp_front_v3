@@ -1,11 +1,11 @@
 import {createPinia, defineStore} from 'pinia';
-import type {User} from '@/_backend/models/auth/User';
+import type {UserGet} from '@/_backend/models/users/UserGet';
 
-export const usePageStoreUser = defineStore('Page: User', {
+export const usePageStoreUser = defineStore('page:users/current', {
 
 	state: () => ({
 
-		user: {} as User,
+		user: {} as UserGet,
 
 	}),
 

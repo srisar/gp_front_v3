@@ -80,7 +80,7 @@ import DefaultSideBar from '@/layout/sideBar/DefaultSideBar.vue';
 
 
 .header {
-	@apply sticky top-0;
+	@apply sticky top-0 z-10;
 	@apply flex gap-3 p-3 h-[72px] w-full;
 	@apply bg-base-100;
 	@apply border-b border-b-base-300;

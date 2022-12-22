@@ -6,13 +6,13 @@ module.exports = {
 	],
 	theme: {
 		fontFamily: {
-			sans: ['Poppins', 'sans-serif'],
+			sans: ['Lexend', 'sans-serif'],
 		},
 		extend: {},
 	},
 
 	daisyui: {
-		themes: ['emerald'],
+		themes: ['corporate'],
 	},
 
 	plugins: [

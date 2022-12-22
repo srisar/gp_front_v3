@@ -1,6 +1,9 @@
 import {createRouter, createWebHistory} from 'vue-router';
 import {authRoutes} from '@/router/auth.routes';
 import {usersRoutes} from '@/router/users.routes';
+import {useAuth} from '@/services/Auth';
+import {nextTick} from 'vue';
+import {USERS_ALL} from '@/_backend/models/users/UserTypes';
 
 
 declare module 'vue-router' {
@@ -26,7 +29,7 @@ const router = createRouter({
 			component: () => import('@/views/PageHome.vue'),
 			meta: {
 				requiresAuth: true,
-				accessList: ['ADMIN', 'MANAGER', 'USER'],
+				accessList: [...USERS_ALL],
 			},
 		},
 		{
@@ -35,11 +38,26 @@ const router = createRouter({
 			component: () => import('@/views/PageAbout.vue'),
 			meta: {
 				requiresAuth: true,
-				accessList: ['ADMIN', 'MANAGER', 'USER'],
+				accessList: [...USERS_ALL],
 			},
 		},
 		...routes,
 	],
+});
+
+
+/*
+ * Route guard
+ */
+router.beforeEach(async (to, from) => {
+
+	const auth = useAuth();
+	if (to.meta.requiresAuth) {
+		if (!to.meta.accessList.includes(auth.getUser.role)) {
+			return {name: 'auth/login'};
+		}
+	}
+
 });
 
 export default router;
