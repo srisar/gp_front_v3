@@ -1,17 +1,11 @@
 <template>
-	
-	<header class="flex mb-5 border-b pb-2 text-xl font-bold">
-		<slot></slot>
-	</header>
-
+    <header class="mb-5 flex border-b pb-2 text-xl font-bold uppercase">
+        <slot></slot>
+    </header>
 </template>
 
 <script setup lang="ts">
-import {ref, reactive} from 'vue';
-
-
+import { ref, reactive } from 'vue';
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

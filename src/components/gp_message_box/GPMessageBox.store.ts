@@ -13,7 +13,7 @@ export enum MessageBoxType {
 /**
  * Store responsible for the message boxes
  */
-export const useGPNotifications = defineStore('gp:notifications', {
+export const useMessageBox = defineStore('gp:messagebox', {
 	state: () => ({
 		messageBox: {
 			open: false,

@@ -1,5 +1,5 @@
 <template>
-	<button class="btn-primary btn text-white" :class="classList">
+	<button class="btn_accent_alt" :class="classList">
 		<slot></slot>
 	</button>
 </template>
@@ -38,4 +38,10 @@ const classList = computed(() => {
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+.btn_accent_alt {
+	@apply btn;
+	@apply border-accent-alt bg-accent-alt text-accent;
+	@apply hover:border-accent-alt-active hover:bg-accent-alt-active;
+}
+</style>

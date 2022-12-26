@@ -1,89 +1,66 @@
 <template>
-	
-	<div class="drawer drawer-mobile">
-		<input id="my-drawer" type="checkbox" class="drawer-toggle"/>
-		
-		<div class="drawer-content">
-			<!-- Page content here -->
-			
-			<!-- START: Header -->
-			<header class="header">
-				
-				<!-- start:mobile drawer toggle button -->
-				<label for="my-drawer" class="flex items-center justify-center drawer-button sm:hidden">
-					<Bars3Icon class="h-6 w-6"/>
-				</label>
-				<!-- end:mobile drawer toggle button -->
-				
-				<div class="flex h-full w-full items-center truncate">
-					<div class="truncate uppercase lg:text-lg lg:font-bold">
-						<slot name="title"></slot>
-					</div>
-				
-				</div>
-				
-				<slot name="topbar">
-					<DefaultTopBar/>
-				</slot>
-			
-			</header>
-			<!-- END: Header -->
-			
-			<!-- START: Main page content area -->
-			<main class="p-5">
-				<slot></slot>
-			</main>
-			<!-- END: Main page content area -->
-		
-		</div>
-		
-		
-		<!-- START: Side Bar -->
-		<aside class="border drawer-side border-r-base-300">
-			<label for="my-drawer" class="drawer-overlay"></label>
-			
-			<section class="w-80 bg-base-200 text-base-content flex h-full flex-col">
-				
-				<!-- start:Side Bar Header -->
-				<header class="bg-base-300 h-[72px] shrink-0">
-					<div class="flex h-full w-full items-center justify-center">
-						<h1 class="font-bold text-3xl">Giggle Pig V3</h1>
-					</div>
-				</header>
-				<!-- end:Side Bar Header -->
-				
-				
-				<DefaultSideBar/>
-				
-				<footer class="bg-base-300 p-4 text-xs font-bold">
-					Giggle Pig v 1.0
-				</footer>
-			
-			</section>
-		</aside>
-		<!-- END: Side Bar -->
-	
-	</div>
+    <div class="drawer-mobile drawer">
+        <input id="my-drawer" type="checkbox" class="drawer-toggle" />
 
+        <div class="drawer-content">
+            <!-- region :Header: -->
+            <header class="header">
+                <label for="my-drawer" class="drawer-button flex items-center justify-center sm:hidden">
+                    <Bars3Icon class="h-6 w-6" />
+                </label>
+
+                <div class="flex h-full w-full items-center truncate">
+                    <div class="truncate uppercase lg:text-lg lg:font-bold">
+                        <slot name="title"></slot>
+                    </div>
+                </div>
+
+                <slot name="topbar">
+                    <DefaultTopBar />
+                </slot>
+            </header>
+            <!-- endregion :Header: -->
+
+            <!-- region :Main Content Area: -->
+            <main class="">
+                <slot></slot>
+            </main>
+            <!-- endregion :Main Content Area: -->
+        </div>
+
+        <!-- region :Drawer/Sidebar: -->
+        <aside class="drawer-side">
+            <label for="my-drawer" class="drawer-overlay"></label>
+
+            <section class="flex h-full w-80 flex-col bg-sidebar-primary text-white">
+                <!-- region :Drawer Header: -->
+                <header class="h-[72px] shrink-0 bg-sidebar-secondary">
+                    <div class="flex h-full w-full items-center justify-center">
+                        <h1 class="text-3xl font-bold">Giggle Pig V3</h1>
+                    </div>
+                </header>
+                <!-- endregion :Drawer Header: -->
+
+                <DefaultSideBar />
+
+                <footer class="bg-sidebar-secondary p-4 text-xs font-bold">Giggle Pig v 1.0</footer>
+            </section>
+        </aside>
+        <!-- endregion :Drawer/Sidebar: -->
+    </div>
 </template>
 
 <script setup lang="ts">
-import {ref, reactive} from 'vue';
-import {Bars3Icon} from '@heroicons/vue/24/solid';
+import { Bars3Icon } from '@heroicons/vue/24/solid';
 import DefaultTopBar from '@/layout/topBar/DefaultTopBar.vue';
 import DefaultSideBar from '@/layout/sideBar/DefaultSideBar.vue';
-
-
 </script>
 
 <style scoped>
-
-
 .header {
-	@apply sticky top-0 z-10;
-	@apply flex gap-3 p-3 h-[72px] w-full;
-	@apply bg-base-100;
-	@apply border-b border-b-base-300;
+    @apply sticky top-0 z-10;
+    @apply mb-5 flex h-[72px] w-full gap-3 p-3;
+    @apply bg-shade;
+    @apply border-b border-b-secondary-alt;
 }
-
 </style>

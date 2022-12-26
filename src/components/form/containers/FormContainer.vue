@@ -1,6 +1,6 @@
 <template>
 
-	<div class="rounded p-5 bg-base-200/50">
+	<div class="rounded p-5 bg-shade">
 		<slot></slot>
 	</div>
 

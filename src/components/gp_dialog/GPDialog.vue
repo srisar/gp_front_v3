@@ -7,14 +7,16 @@
 			</GPDialogBackDropChildTransition>
 			<!-- END: Backdrop -->
 
-			<!------------ start:Dialog panel container ------------>
+			<!------------ :Dialog Container: ------------>
+
+			<!------------ :Dialog Container: ------------->
+
 			<div class="fixed inset-0 overflow-y-auto">
 				<div class="flex min-h-full items-center justify-center overflow-auto p-4 text-center">
 					<GPDialogPanelChildTransition>
 						<DialogPanel class="dialog_panel" :class="[dialogSize]">
-							<!-- ---------- start:Header ---------- -->
-							<header class="mb-10 flex items-center justify-between">
-								<DialogTitle as="h3" class="text-lg font-semibold uppercase leading-6">
+							<header class="gp_dialog_panel_header">
+								<DialogTitle as="h1" class="text-xl font-bold uppercase">
 									<slot name="title"></slot>
 								</DialogTitle>
 
@@ -22,22 +24,20 @@
 									<GPIconDialogClose />
 								</button>
 							</header>
-							<!------------ end:Header ------------->
 
-							<!------------ start:Main slot ------------>
-							<slot></slot>
-							<!------------ end:Main slot ------------->
+							<div class="p-5">
+								<slot></slot>
+							</div>
 						</DialogPanel>
 					</GPDialogPanelChildTransition>
 				</div>
 			</div>
-			<!------------ end:Dialog panel container ------------->
 		</Dialog>
 	</GPDialogRootTransition>
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 import { Dialog, DialogPanel, DialogTitle } from '@headlessui/vue';
 import GPDialogRootTransition from '@/components/gp_dialog/_/GigglePigDialogRootTransition.vue';
 import GPDialogBackDropChildTransition from '@/components/gp_dialog/_/GigglePigDialogBackDropChildTransition.vue';
@@ -75,16 +75,23 @@ const dialogSize = computed(() => {
 
 <style scoped>
 .dialog_panel {
-	@apply w-full rounded-md p-6 text-left align-middle shadow-xl;
-	@apply bg-base-100;
-	@apply transition-all;
+	@apply w-full align-middle;
+	@apply rounded-2xl;
+	@apply text-left;
+	@apply bg-white;
+	@apply shadow-xl transition-all;
+}
+
+.gp_dialog_panel_header {
+	@apply flex items-center justify-between overflow-hidden px-5 py-2;
+	@apply border-b;
 }
 
 .btn_close {
-	@apply rounded-lg p-2 transition-all hover:bg-base-300;
+	@apply btn-ghost btn-square btn;
 }
 
 .backdrop {
-	@apply fixed inset-0 bg-black/95;
+	@apply fixed inset-0 bg-base-300/80;
 }
 </style>

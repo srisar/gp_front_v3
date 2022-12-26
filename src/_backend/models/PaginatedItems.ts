@@ -1,10 +1,19 @@
-export interface IPagination {
-	current_page: number;
-	pages: number;
-	total_count: number;
+interface PaginationLink {
+    url: string;
+    label: string;
+    active: boolean;
 }
 
 export interface PaginatedItems<T> {
-	data: T[],
-	pagination: IPagination
+    data: T[];
+    total: number;
+
+    current_page: number;
+    last_page: number;
+
+    from: number;
+    to: number;
+    per_page: number;
+
+    links: PaginationLink[];
 }

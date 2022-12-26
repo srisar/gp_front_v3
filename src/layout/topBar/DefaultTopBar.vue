@@ -1,29 +1,27 @@
 <template>
-	<div class="z-50 flex shrink-0 justify-end">
-		<div class="dropdown-end dropdown">
-			<button class="btn-secondary btn-circle btn" tabindex="0">User</button>
-			<ul tabindex="0" class="dropdown-content menu rounded-box z-50 w-52 bg-base-100 p-2 shadow">
-				<li>
-					<button @click="toManageUser()">
-						<IconUser class="" />
-						Manage user
-					</button>
-				</li>
-				<li>
-					<button @click="doLogout()">
-						<IconSignOut />
-						Logout
-					</button>
-				</li>
-			</ul>
-		</div>
-	</div>
+    <div class="z-50 flex shrink-0 justify-end">
+        <div class="dropdown-end dropdown">
+            <button class="btn-secondary btn-circle btn" tabindex="0">User</button>
+            <ul tabindex="0" class="dropdown-content menu z-50 w-52 rounded bg-base-100 p-2 shadow">
+                <li>
+                    <button @click="toManageUser()">
+                        <IconUser class="" />
+                        Manage user
+                    </button>
+                </li>
+                <li>
+                    <button @click="doLogout()">
+                        <IconSignOut />
+                        Logout
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </div>
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue';
 import { useRouter } from 'vue-router';
-import { UserIcon, LockClosedIcon } from '@heroicons/vue/24/outline';
 import IconUser from '@/assets/icons/elements/IconUser.vue';
 import IconSignOut from '@/assets/icons/actions/IconSignOut.vue';
 import { useAuth } from '@/services/Auth';
@@ -35,21 +33,21 @@ const router = useRouter();
  * Handle:
  */
 const doLogout = () => {
-	router.push({
-		name: 'auth/logout',
-	});
+    router.push({
+        name: 'auth/logout',
+    });
 };
 
 /**
  * Handle:
  */
 const toManageUser = () => {
-	router.push({
-		name: 'user/manage',
-		params: {
-			id: auth.getUser.id,
-		},
-	});
+    router.push({
+        name: 'user/manage',
+        params: {
+            id: auth.getUser.id,
+        },
+    });
 };
 </script>
 
