@@ -65,7 +65,6 @@
 <script setup lang="ts">
 import LeftSide from "@/components/layout/LeftSide.vue";
 import RightSide from "@/components/layout/RightSide.vue";
-import heroImage from "@/assets/images/hero-image.svg";
 import GigglePigLogo from "@/assets/images/GigglePigLogo.vue";
 </script>
 
