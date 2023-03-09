@@ -1,5 +1,18 @@
 <template>
-	<HomepageLayoutEx />
+	<BaseAppLayout>
+		<PageContainer>
+			<SectionSmall>
+				<FormRow>
+					<TextField v-model="symbol">
+						<template #label>Symbol Name</template>
+					</TextField>
+					<ButtonPrimary @click="doFetch">Fetch</ButtonPrimary>
+				</FormRow>
+
+				<pre>{{ data }}</pre>
+			</SectionSmall>
+		</PageContainer>
+	</BaseAppLayout>
 </template>
 
 <script setup lang="ts">
@@ -12,8 +25,6 @@ import FormRow from "@/components/form/containers/FormRow.vue";
 import PageContainer from "@/components/containers/PageContainer.vue";
 import SectionSmall from "@/components/containers/SectionSmall.vue";
 import ButtonPrimary from "@/components/form/button/ButtonPrimary.vue";
-import BasePublicLayout from "@/layout/BasePublicLayout.vue";
-import HomepageLayoutEx from "@/layout/homepage/HomepageLayoutEx.vue";
 
 /* ------------------------------------------------------------------------------------------------------------------ */
 /* region Fetch Stock data */
