@@ -7,14 +7,7 @@
             </span>
         </label>
 
-        <input
-            :type="type"
-            :placeholder="placeholder"
-            :readonly="readonly"
-            class="input-bordered input w-full"
-            :class="classList"
-            v-model="data"
-        />
+        <input :type="type" :placeholder="placeholder" :readonly="readonly" class="input-bordered input w-full" :class="classList" v-model="data" />
 
         <label class="label">
             <div class="label-text-alt flex flex-col gap-1">
@@ -25,8 +18,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-import { useVModel } from '@vueuse/core';
+import { computed } from "vue";
+import { useVModel } from "@vueuse/core";
 
 /* ------------------------------------------------------------------------------------------------------------------ */
 /* region Props */
@@ -37,19 +30,19 @@ interface Props {
     required?: boolean;
     readonly?: boolean;
     placeholder?: string;
-    type?: 'text' | 'password' | 'email' | 'number';
+    type?: "text" | "password" | "email" | "number";
 }
 
 const props = withDefaults(defineProps<Props>(), {
     invalid: false,
     required: false,
     readonly: false,
-    type: 'text',
+    type: "text",
 });
 
-const emits = defineEmits(['update:modelValue']);
+const emits = defineEmits(["update:modelValue"]);
 
-const data = useVModel(props, 'modelValue', emits);
+const data = useVModel(props, "modelValue", emits);
 
 /* endregion */
 /* ------------------------------------------------------------------------------------------------------------------ */
@@ -61,7 +54,7 @@ const classList = computed(() => {
     let classes = [];
 
     if (props.invalid) {
-        classes.push('input-error');
+        classes.push("input-error");
     }
 
     return classes;

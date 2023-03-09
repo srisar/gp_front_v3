@@ -1,149 +1,149 @@
-import { useAPIFetch } from '@/services/FetchService';
-import { computed, ref } from 'vue';
-import type { Ref } from 'vue';
-import type { UserGet } from '@/_backend/models/users/UserGet';
-import type { UserPatch } from '@/_backend/models/users/UserPatch';
-import type { UserPasswordPatch } from '@/_backend/models/users/UserPasswordPatch';
-import type { PaginatedItems } from '@/_backend/models/PaginatedItems';
-import type { UserPost } from '@/_backend/models/users/UserPost';
+import { computed, ref } from "vue";
+import { useAPIFetch } from "@/services/FetchService";
+import { useURLBuilder } from "@/utilities/useURLBuilder";
+import { useFetchErrors } from "@/services/FetchErrors";
+import type { Ref } from "vue";
+import type { UserGet } from "@/_backend/models/users/UserGet";
+import type { UserUpdate } from "@/_backend/models/users/UserUpdate";
+import type { PaginatedItems } from "@/_backend/models/PaginatedItems";
+import type { QueryFetchUsers } from "@/_backend/models/users/query/QueryFetchUsers";
+import type { QueryFetchUser } from "@/_backend/models/users/query/QueryFetchUser";
+import type { UserProfilePictureUpdate } from "@/_backend/models/users/UserProfilePictureUpdate";
+import type { UserPasswordUpdate } from "@/_backend/models/users/UserPasswordUpdate";
+import type { UserCreate } from "@/_backend/models/users/UserCreate";
+
+/* ------------------------------------------------------------------------------------------------------------------ */
 
 /**
  * API: Fetch all users
  */
-export const useApiFetchUsers = (page: Ref, role: Ref) => {
-    const url = ref('users/all');
+export const useApiFetchUsers = (queryFetchUsers: Ref<QueryFetchUsers>) => {
+   const { fullURL } = useURLBuilder("users", queryFetchUsers);
 
-    const { data, error, isFetching, execute: fetch, canAbort, abort, get } = useAPIFetch(url).json();
+   const { data, error, execute, isFetching } = useAPIFetch(fullURL).json();
+   const { hasError, errorMessage } = useFetchErrors(error, data);
 
-    const users = computed<UserGet[]>(() => {
-        if (error != null && data.value) {
-            return data.value.data;
-        }
-        return [];
-    });
+   const users = computed<UserGet[]>(() => {
+      if (!hasError.value && data.value) return data.value.data;
+      return [];
+   });
 
-    const paginatedUsers = computed<PaginatedItems<UserGet>>(() => {
-        if (error != null && data.value) {
-            return data.value;
-        }
-    });
+   const hasUsers = computed(() => users.value.length > 0);
 
-    const execute = async () => {
-        let searchParams = new URLSearchParams();
-        searchParams.append('page', page.value.toString());
-        if (role.value !== 'ALL') searchParams.append('role', role.value);
+   const paginatedUsers = computed<PaginatedItems<UserGet>>(() => {
+      if (!hasError.value && data.value) return data.value;
+      return {} as PaginatedItems<any>;
+   });
 
-        url.value = 'users/all?' + searchParams.toString();
-        console.log(url.value);
-        get();
-
-        await fetch();
-    };
-
-    return { error, isFetching, users, canAbort, abort, paginatedUsers, execute };
+   return { hasError, errorMessage, isFetching, users, hasUsers, paginatedUsers, execute };
 };
+
+/* ------------------------------------------------------------------------------------------------------------------ */
 
 /**
  * API: Fetch single user
  */
-export function useApiFetchUser(userId: number) {
-    const urlParam = new URLSearchParams({ id: userId.toString() });
+export const useApiFetchUser = (queryFetchUser: Ref<QueryFetchUser>) => {
+   const { fullURL } = useURLBuilder("user", queryFetchUser);
 
-    const { data, error, isFetching, execute, canAbort, abort } = useAPIFetch('users/single?' + urlParam.toString()).json();
+   const { data, error, execute, isFetching } = useAPIFetch(fullURL).json();
+   const { hasError, errorMessage } = useFetchErrors(error, data);
 
-    const user = computed<UserGet>(() => {
-        if (error.value == null) {
-            return data.value;
-        }
-        return {};
-    });
+   const user = computed<UserGet>(() => {
+      if (!hasError.value && data.value) return data.value;
+      return null;
+   });
 
-    return { error, isFetching, execute, canAbort, abort, data, user };
-}
+   return { isFetching, user, execute, hasError, errorMessage };
+};
+
+/* ------------------------------------------------------------------------------------------------------------------ */
 
 /**
  * API: Update user
  */
-export function useApiUpdateUser() {
-    const { data, error, isFetching, execute, patch } = useAPIFetch('users/update').json();
+export const useApiUpdateUser = (userUpdate: UserUpdate) => {
+   const { data, error, isFetching, patch, execute: exec } = useAPIFetch("user/update").json();
+   const { hasError, errorMessage } = useFetchErrors(error, data);
 
-    const updatedUser = computed<UserGet>(() => {
-        if (error != null) {
-            return data.value;
-        }
-        return {};
-    });
+   const updatedUser = computed<UserGet>(() => {
+      if (!hasError.value && data.value) return data.value;
+      return null;
+   });
 
-    const errorMessage = computed(() => {
-        return data.value.error;
-    });
+   const execute = async () => {
+      patch({ ...userUpdate });
+      await exec();
+   };
 
-    const updateUser = async (user: UserPatch) => {
-        patch({
-            id: user.id,
-            full_name: user.full_name,
-            role: user.role,
-        });
+   return { isFetching, updatedUser, hasError, errorMessage, execute };
+};
 
-        await execute();
-    };
-
-    return { error, errorMessage, isFetching, updateUser, updatedUser };
-}
+/* ------------------------------------------------------------------------------------------------------------------ */
 
 /**
  * API: Update password
  */
-export function useApiUpdateUserPassword() {
-    const { data, error, isFetching, execute, patch } = useAPIFetch('users/single/update-password').json();
+export const useApiUpdateUserPassword = (userPasswordUpdate: UserPasswordUpdate) => {
+   const { data, error, isFetching, patch, execute: exec } = useAPIFetch("user/update-password").json();
+   const { hasError, errorMessage } = useFetchErrors(error, data);
 
-    const updatedUser = computed<UserGet>(() => {
-        if (error != null) {
-            return data.value;
-        }
-        return {};
-    });
+   const updatedUser = computed<UserGet>(() => {
+      if (!hasError.value && data.value) return data.value;
+      return null;
+   });
 
-    const errorMessage = computed(() => {
-        return data.value.error;
-    });
+   const execute = async () => {
+      patch({ ...userPasswordUpdate });
+      await exec();
+   };
 
-    const updatePassword = async (data: UserPasswordPatch) => {
-        patch({ ...data });
+   return { isFetching, updatedUser, hasError, errorMessage, execute };
+};
 
-        await execute();
-    };
-
-    return { error, errorMessage, isFetching, updatePassword, updatedUser };
-}
+/* ------------------------------------------------------------------------------------------------------------------ */
 
 /**
  * API: Create user
  */
-export function useApiCreateUser(userToPost: Ref<UserPost>) {
-    const { data, error, isFetching, execute: exec, post } = useAPIFetch('users/create').json();
+export const useApiCreateUser = (userCreate: UserCreate) => {
+   const { data, error, isFetching, post, execute: exec } = useAPIFetch("user/create").json();
+   const { hasError, errorMessage } = useFetchErrors(error, data);
 
-    const createdUser = computed<UserGet>(() => {
-        if (error != null) {
-            return data.value;
-        }
-        return {};
-    });
+   const createdUser = computed<UserGet>(() => {
+      if (!hasError.value && data.value) return data.value;
+      return null;
+   });
 
-    const errorMessage = computed(() => {
-        return data.value.error;
-    });
+   const execute = async () => {
+      post({ ...userCreate });
+      await exec();
+   };
 
-    const execute = async () => {
-        post({
-            email: userToPost.value.email,
-            full_name: userToPost.value.full_name,
-            role: userToPost.value.role,
-            password: userToPost.value.password,
-        });
+   return { isFetching, createdUser, hasError, errorMessage, execute };
+};
 
-        await exec();
-    };
+/* ------------------------------------------------------------------------------------------------------------------ */
 
-    return { error, isFetching, execute, errorMessage, createdUser };
-}
+/**
+ * API: Update user profile picture
+ * @param userProfilePictureToUpdate
+ */
+export const useApiUpdateUserProfilePicture = (userProfilePictureToUpdate: UserProfilePictureUpdate) => {
+   const { data, error, isFetching, patch, execute: exec } = useAPIFetch("user/update-picture").json();
+   const { hasError, errorMessage } = useFetchErrors(error, data);
+
+   const updatedUser = computed<UserGet>(() => {
+      if (!hasError.value && data.value) return data.value;
+      return null;
+   });
+
+   const execute = async () => {
+      patch({ ...userProfilePictureToUpdate });
+      await exec();
+   };
+
+   return { isFetching, updatedUser, hasError, errorMessage, execute };
+};
+
+/* ------------------------------------------------------------------------------------------------------------------ */

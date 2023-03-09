@@ -1,9 +1,9 @@
 module.exports = {
-    trailingComma: 'es5',
-    tabWidth: 4,
-    semi: true,
-    singleQuote: true,
-    printWidth: 260,
-    quoteProps: 'consistent',
-    htmlWhitespaceSensitivity: 'ignore',
+   trailingComma: "es5",
+   tabWidth: 3,
+   semi: true,
+   singleQuote: false,
+   printWidth: 160,
+   quoteProps: "consistent",
+   bracketSameLine: true,
 };
