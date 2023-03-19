@@ -2,27 +2,37 @@ import type { RouteRecordRaw } from "vue-router";
 import { USERS_ADMINS_MANAGERS, USERS_ALL } from "@/_backend/models/users/UserTypes";
 import { useAuth } from "@/services/Auth";
 
-export const usersRoutes: RouteRecordRaw[] = [
+export const adminRoutes: RouteRecordRaw[] = [
 	{
-		path: "/users",
-		name: "users",
-		component: () => import("@/views/_users/ListUsers/PageListUsers.vue"),
+		path: "/admin",
+		name: "admin/index",
+		component: () => import("@/pages/admin/index.vue"),
+		meta: {
+			requiresAuth: true,
+			accessList: USERS_ADMINS_MANAGERS,
+		},
+	},
+
+	{
+		path: "/admin/users",
+		name: "admin/users",
+		component: () => import("@/pages/admin/users/list.vue"),
 		meta: {
 			requiresAuth: true,
 			accessList: USERS_ADMINS_MANAGERS,
 		},
 	},
 	{
-		path: "/user/:id",
-		name: "user/manage",
-		component: () => import("@/views/_users/ManageUser/PageManageUser.vue"),
+		path: "/admin/user/:id",
+		name: "admin/user/manage",
+		component: () => import("@/pages/admin/users/manage.vue"),
 		meta: {
 			requiresAuth: true,
 			accessList: USERS_ALL,
 		},
 		beforeEnter: (to) => {
 			/*
-			 * Validating if the user can access the manage page
+			 * Validating if the user can access the [id] page
 			 */
 
 			const auth = useAuth();
@@ -34,9 +44,9 @@ export const usersRoutes: RouteRecordRaw[] = [
 		},
 	},
 	{
-		path: "/user/create",
-		name: "user/create",
-		component: () => import("@/views/_users/CreateUser/PageCreateUser.vue"),
+		path: "/admin/user/create",
+		name: "admin/user/create",
+		component: () => import("@/pages/admin/users/create.vue"),
 		meta: {
 			requiresAuth: true,
 			accessList: USERS_ADMINS_MANAGERS,

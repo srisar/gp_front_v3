@@ -1,5 +1,5 @@
 <template>
-	<BaseAppLayout>
+	<AdminLayout>
 		<template #title>Manage Current User</template>
 
 		<PageContainer>
@@ -59,16 +59,18 @@
 		</PageContainer>
 
 		<LoadingPlaceholder v-if="apiFetchUser.isFetching">Fetching user</LoadingPlaceholder>
-	</BaseAppLayout>
+	</AdminLayout>
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeMount, onMounted, reactive, ref } from "vue";
+import { computed, onMounted, reactive, ref } from "vue";
 import { onBeforeRouteUpdate, useRoute, useRouter } from "vue-router";
 import { useMessageBox } from "@/components/gp_message_box/GPMessageBox.store";
 import { useApiFetchUser, useApiUpdateUser } from "@/_backend/api/users/UsersApi";
+import { useAuth } from "@/services/Auth";
+import { getUserProfilePictureURL } from "@/utilities/UploadedResourceUtils";
 import { required } from "@vuelidate/validators";
-import BaseAppLayout from "@/layout/BaseAppLayout.vue";
+import { EnumUserRole } from "@/_backend/models/users/EnumUserRole";
 import TextField from "@/components/form/fields/TextField.vue";
 import FormRow from "@/components/form/containers/FormRow.vue";
 import ButtonPrimary from "@/components/form/button/ButtonPrimary.vue";
@@ -79,18 +81,16 @@ import ListBox from "@/components/form/lists/ListBox.vue";
 import LoadingPlaceholder from "@/components/LoadingPlaceholder.vue";
 import useVuelidate from "@vuelidate/core";
 import TextLabel from "@/components/form/labels/TextLabel.vue";
-import UpdatePassword from "@/views/_users/ManageUser/UpdatePassword.vue";
 import FormHeader from "@/components/form/containers/FormHeader.vue";
 import PageContainer from "@/components/containers/PageContainer.vue";
 import SectionSmall from "@/components/containers/SectionSmall.vue";
+import VuelidateErrors from "@/components/form/vuelidate/VuelidateErrors.vue";
+import AdminLayout from "@/layout/AdminLayout.vue";
+import UpdateProfilePicture from "@/page_components/users/UpdateProfilePicture.vue";
+import UpdatePassword from "@/page_components/users/UpdatePassword.vue";
 import type { ListBoxItem } from "@/components/form/lists/ListBoxItem";
 import type { UserUpdate } from "@/_backend/models/users/UserUpdate";
 import type { QueryFetchUser } from "@/_backend/models/users/query/QueryFetchUser";
-import { EnumUserRole } from "@/_backend/models/users/EnumUserRole";
-import { getUserProfilePictureURL } from "@/utilities/UploadedResourceUtils";
-import UpdateProfilePicture from "@/views/_users/ManageUser/UpdateProfilePicture.vue";
-import VuelidateErrors from "@/components/form/vuelidate/VuelidateErrors.vue";
-import { useAuth } from "@/services/Auth";
 
 /* ------------------------------------------------------------------------------------------------------------------ */
 /* region Store, route */

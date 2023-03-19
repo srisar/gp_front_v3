@@ -2,10 +2,10 @@
    <FormContainer>
       <FormHeader>Update Profile picture</FormHeader>
 
-      <input type="file" class="file-input w-full" @change="handleSelectPicture" />
+      <input type="file" class="w-full file-input" @change="handleSelectPicture" />
 
       <div class="mt-5 flex w-full flex-col items-center justify-center gap-5" v-if="selectedPicture">
-         <div class="flex h-72 w-72 items-center justify-center rounded bg-base-200 p-2">
+         <div class="flex h-72 w-72 items-center justify-center rounded p-2 bg-base-200">
             <Cropper
                :src="selectedPicture"
                :stencil-props="{

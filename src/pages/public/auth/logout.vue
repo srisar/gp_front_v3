@@ -6,7 +6,7 @@
 		<div class="w-96 p-5 bg-base-100">
 
 			<header class="">
-				<h1 class="text-2xl font-bold text-center">Signing out...</h1>
+				<h1 class="text-center text-2xl font-bold">Signing out...</h1>
 			</header>
 
 
@@ -39,7 +39,7 @@ onMounted(async () => {
 	auth.logout();
 
 	await router.push({
-		name: 'auth/login',
+		name: 'public/index',
 	});
 
 });

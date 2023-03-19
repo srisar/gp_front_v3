@@ -1,7 +1,7 @@
 <template>
 	<div class="z-50 flex shrink-0 justify-end">
 		<div class="dropdown-end dropdown">
-			<div tabindex="0" class="dropdown_btn">
+			<button tabindex="0" class="flex h-full items-center gap-5 px-2">
 				<p class="hidden font-bold lg:block">{{ auth.getUser.full_name }}</p>
 
 				<div v-if="profilePicURL" class="h-12 w-12 overflow-hidden rounded-full border-2 border-base-300">
@@ -10,8 +10,8 @@
 				<div v-else>
 					<IconUser />
 				</div>
-			</div>
-			<ul tabindex="0" class="dropdown-content menu z-50 w-52 rounded bg-base-100 p-2 shadow">
+			</button>
+			<ul tabindex="0" class="z-50 w-52 rounded p-2 shadow dropdown-content menu bg-base-100">
 				<li>
 					<button @click="toManageUser()">
 						<IconUser class="" />
@@ -59,8 +59,14 @@ const doLogout = () => {
  * Handle:
  */
 const toManageUser = () => {
+
+	console.log(auth.getUser.id);
+	
 	router.push({
-		name: "app/user/manage",
+		name: "admin/user/manage",
+		params: {
+			id: auth.getUser.id,
+		},
 	});
 };
 
@@ -75,8 +81,4 @@ const profilePicURL = computed(() => {
 /* ------------------------------------------------------------------------------------------------------------------ */
 </script>
 
-<style scoped>
-.dropdown_btn {
-	@apply flex h-full cursor-pointer items-center gap-5 px-2;
-}
-</style>
+<style scoped></style>

@@ -1,24 +1,22 @@
-import {createFetch} from '@vueuse/core';
-import {AppInfo} from '@/utilities/AppInfo';
-import {useAuth} from '@/services/Auth';
+import { createFetch } from "@vueuse/core";
+import { AppInfo } from "@/utilities/AppInfo";
+import { useAuth } from "@/services/Auth";
 
 /**
- * Fetch instance that uses auth token
+ * Fetch instance that uses public token
  */
 export const useAPIFetch = createFetch({
 	baseUrl: AppInfo.getApiBaseURL,
 	options: {
-
 		immediate: false,
 
 		/**
 		 * inject authentication header
 		 */
-		async beforeFetch({options, cancel}) {
-
+		async beforeFetch({ options, cancel }) {
 			const auth = useAuth();
 
-			if (auth.getToken !== '') {
+			if (auth.getToken !== "") {
 				// @ts-ignore
 				options.headers.Authorization = `Bearer ${auth.getToken}`;
 			} else {
@@ -28,14 +26,12 @@ export const useAPIFetch = createFetch({
 			return {
 				options,
 			};
-
 		},
 
 		/**
 		 * Intercept response and check for not-authorized response code
 		 */
 		onFetchError(ctx) {
-
 			const auth = useAuth();
 
 			if (ctx.response?.status === 401) {
@@ -44,13 +40,11 @@ export const useAPIFetch = createFetch({
 
 			return ctx;
 		},
-
 	},
 	fetchOptions: {
-		mode: 'cors',
+		mode: "cors",
 	},
 });
-
 
 /**
  * Fetch instance used in authentication process
@@ -60,5 +54,4 @@ export const useLoginFetch = createFetch({
 	options: {
 		immediate: false,
 	},
-})('login').json();
-
+})("login").json();

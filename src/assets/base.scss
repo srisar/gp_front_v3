@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+	font-size: 15px;
+}
+
+/* Daisy */
+
+.input {
+	@apply focus:border-primary focus:outline-none;
+}
+
+/*
+ Sidebar Menu
+*/
+
+.menu {
+	a {
+		@apply text-sm font-bold uppercase;
+		@apply hover:text-primary hover:bg-neutral;
+	}
+
+	.menu-title span {
+		@apply text-white uppercase mb-2;
+	}
+}

@@ -17,12 +17,12 @@
 </template>
 
 <script lang="ts" setup>
-import { useRouter } from 'vue-router';
-import { useAuth } from '@/services/Auth';
-import { AppInfo, useAppTitle } from '@/utilities/AppInfo';
-import GPMessageBox from '@/components/gp_message_box/GPMessageBox.vue';
+import { useRouter } from "vue-router";
+import { useAuth } from "@/services/Auth";
+import { AppInfo, useAppTitle } from "@/utilities/AppInfo";
+import GPMessageBox from "@/components/gp_message_box/GPMessageBox.vue";
 
-useAppTitle('App');
+useAppTitle("App");
 
 /*
  * Router view handling with suspense
@@ -37,14 +37,6 @@ const router = useRouter();
 
 /* endregion */
 /* ------------------------------------------------------------------------------------------------------------------ */
-
-const auth = useAuth();
-
-if (!auth.hasValidToken) {
-	router.push({
-		name: 'auth/login',
-	});
-}
 </script>
 
 <style>

@@ -2,13 +2,19 @@ import { defineStore } from "pinia";
 import { useStorage } from "@vueuse/core";
 import { isEmpty } from "lodash";
 import { useLoginFetch } from "@/services/FetchService";
-import type { TokenUser } from "@/_backend/models/auth/TokenUser";
 import { EnumUserRole } from "@/_backend/models/users/EnumUserRole";
+import type { TokenUser } from "@/_backend/models/auth/TokenUser";
 
-const STORE_AUTH_TOKEN = "xx-auth-token";
-const STORE_AUTH_USER = "xx-auth-user";
+/*
+ * Constants
+ */
+const STORE_AUTH_TOKEN = "xx-public-token";
+const STORE_AUTH_USER = "xx-public-user";
 
-export const useAuth = defineStore("auth", {
+/**
+ * Store: Auth
+ */
+export const useAuth = defineStore("public", {
 	state: () => ({
 		_token: useStorage(STORE_AUTH_TOKEN, ""),
 		_user: useStorage(STORE_AUTH_USER, {} as TokenUser),
@@ -28,12 +34,20 @@ export const useAuth = defineStore("auth", {
 			return state._user;
 		},
 
+		getUserId(state): number {
+			return state._user.id;
+		},
+
 		hasValidToken(state) {
 			return !isEmpty(state._token) || !isEmpty(state._user);
 		},
 
 		isAdminUser(state) {
 			return state._user.role === EnumUserRole.ADMIN;
+		},
+
+		isAppUser(state) {
+			return state._user.role === EnumUserRole.USER;
 		},
 	},
 
